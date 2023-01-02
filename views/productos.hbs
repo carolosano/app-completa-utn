@@ -1,0 +1,126 @@
+<div class="container text-center m-5">
+    <hr>
+    <h1>
+        {{ titulo }} de la App
+    </h1>
+    <hr>
+</div>
+
+<div id="carouselExampleCaptions" class="carousel slide">
+  <div class="carousel-indicators">
+    <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+    <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="1" aria-label="Slide 2"></button>
+    <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="2" aria-label="Slide 3"></button>
+  </div>
+  <div class="carousel-inner">
+    <div class="carousel-item active">
+      <img src="https://www.euroresidentes.com/suenos/img_suenos/ropa-suenos-euroresidentes.jpg" class="d-block w-100" alt="...">
+      <div class="carousel-caption d-none d-md-block">
+        <h5>TEMPORADA DE VERANO</h5>
+        <p>¡Aprovechá descuentos exclusivos!</p>
+      </div>
+    </div>
+    <div class="carousel-item">
+      <img src="https://media.istockphoto.com/id/1018293976/es/foto/mujer-moda-atractiva-posando-en-su%C3%A9ter-de-moda-blanco-pantal%C3%B3n-beige-y-los-zapatos-de-oto%C3%B1o-en.jpg?b=1&s=170667a&w=0&k=20&c=BYKu4cTDSP-GnkPmyTaVZ304rOG5GMicTASqsNDDAgQ=" class="d-block w-100" alt="...">
+      <div class="carousel-caption d-none d-md-block">
+        <h5>TEMPORADA DE VERANO</h5>
+        <p>Hasta 35% off</p>
+      </div>
+    </div>
+    <div class="carousel-item">
+      <img src="https://us.123rf.com/450wm/lightfieldstudios/lightfieldstudios1809/lightfieldstudios180905926/lightfieldstudios180905926.jpg?ver=6" class="d-block w-100" alt="...">
+      <div class="carousel-caption d-none d-md-block">
+        <h5>Third slide label</h5>
+        <p>Solo en tienda online</p>
+      </div>
+    </div>
+  </div>
+  <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="prev">
+    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+    <span class="visually-hidden">Previous</span>
+  </button>
+  <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="next">
+    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+    <span class="visually-hidden">Next</span>
+  </button>
+</div>
+
+{{!--Tabla de productos --}}
+
+<div class="container text-center m-5">
+    <hr>
+    <h1>
+        Lista de Productos
+    </h1>
+    <hr>
+</div>
+
+<table class="table table-striped container" id="mitabla">
+    <thead>
+        <tr>
+        <th scope="col">#</th>
+        <th scope="col">Nombre</th>
+        <th scope="col">Precio</th>
+        <th scope="col">Descripción</th>
+        </tr>
+    </thead>
+    <tbody>
+        {{#each datos}}
+        <tr>
+        <th scope="row">{{ idProducto }}</th>
+        <td>{{ nombre }}</td>
+        <td>{{ precio }}</td>
+        <td>{{ descripcion }}</td>
+        <td>
+            <a href="javascript:void(0);" class="btn btn-danger delete" data-id="{{ idProducto }}">Delete</a>
+            <a href="javascript:void(0);" class="btn btn-primary edit">Update</a>
+        </td>
+        </tr>
+        {{/each}}
+    </tbody>
+</table>
+
+
+{{!-- Modal para el Delete --}}
+<form action="/delete" method="post">
+    <div class="modal" id="DeleteModal" role="dialog" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Eliminar Producto</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>¿Está seguro de eliminar el Producto?</p>
+            </div>
+            <div class="modal-footer">
+                <input type="number" name="idProducto" id="idProducto" class="idProducto" required>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="submit" class="btn btn-danger">Delete</button>
+            </div>
+            </div>
+        </div>
+    </div>
+</form>
+
+{{!-- Modal para el Update --}}
+
+
+
+<script src="https://code.jquery.com/jquery-3.3.1.js" integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60=" crossorigin="anonymous"></script>
+
+{{!-- Función para tomar los datos del Modal  --}}
+
+<script>
+    
+    $(document).ready(function() {
+
+        $('#mitabla').on('click', '.delete', function (){
+            let idProducto = $(this).data('id');
+            $('#DeleteModal').modal('show')
+        })
+
+    })
+
+
+</script>
