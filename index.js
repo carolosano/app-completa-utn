@@ -15,7 +15,7 @@ const PORT = process.env.PORT
 
 // Middelware funciones que dan info a json
 app.use(express.json());
-app.use(express.urlencoded({extended:true}));
+app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, 'public')));
 
 // Configuramos el motor de plantillas de hbs
@@ -28,7 +28,7 @@ hbs.registerPartials(path.join(__dirname, 'views/partials'));
 
 
 //Conexion a la Base de Datos
-const conexion = mysql.createConnection({
+/*const conexion = mysql.createConnection({
     host: process.env.HOST,
     user: process.env.USER,
     password: process.env.PASSWORD,
@@ -39,10 +39,10 @@ const conexion = mysql.createConnection({
 
 
 
-conexion.connect((err)=>{
+conexion.connect((err) => {
     if (err) throw err;
     console.log(`Conectado a la Data Base: ${process.env.DATABASE}`);
-})
+}) */
 
 // Rutas de la Aplicacion
 app.get('/', (req, res) => {
@@ -56,26 +56,29 @@ app.get('/formulario', (req, res) => {
 })
 
 app.get('/productos', (req, res) => {
-    
-    let sql = "SELECT * FROM productos";
 
-    conexion.query(sql, function(err, result){
+    /*let sql = "SELECT * FROM productos";
+
+    conexion.query(sql, function (err, result) {
         if (err) throw err;
         console.log(result);
         res.render('productos', {
             titulo: 'Productos',
             datos: result
         })
+    }) */
+    res.json({
+        prueba: 'Probando deploy sin conexion a la Database'
     })
 })
 
-app.get('/contacto', (req, res) =>{
+app.get('/contacto', (req, res) => {
     res.render('contacto', {
         titulo: 'Registro'
     })
 })
 
-app.post('/formulario', (req, res) =>{    
+app.post('/formulario', (req, res) => {
     const nombre = req.body.nombre;
     const precio = req.body.precio;
     const descripcion = req.body.descripcion;
@@ -86,21 +89,24 @@ app.post('/formulario', (req, res) =>{
         descripcion: descripcion
     }
 
-    let sql = "INSERT INTO productos set ?";
+    /*let sql = "INSERT INTO productos set ?";
 
-    conexion.query(sql, datos, function(err){
+    conexion.query(sql, datos, function (err) {
         if (err) throw err;
-            console.log(`1 Registro insertado`);
-            res.render('enviado')
-        })
+        console.log(`1 Registro insertado`);
+        res.render('enviado')
+    }) */
+    res.json({
+        prueba: 'Probando deploy sin conexion a la Database'
+    })
 })
 
-app.post('/contacto', (req, res) =>{
+app.post('/contacto', (req, res) => {
     const nombre = req.body.nombre;
     const email = req.body.email;
 
     //Creamos una función para enviar Email al cliente
-    async function envioMail(){
+    async function envioMail() {
         //Configuramos la cuenta del envío­o
         let transporter = nodemailer.createTransport({
             host: 'smtp.gmail.com',
@@ -117,7 +123,7 @@ app.post('/contacto', (req, res) =>{
             from: process.env.EMAIL,
             to: `${email}`,
             subject: "Gracias por suscribirte a nuestra App",
-            html:`Muchas gracias por visitar nuestra página <br>
+            html: `Muchas gracias por visitar nuestra página <br>
             Recibirás nuestras promociones a esta dirrección de correo. <br>
             Buen fin de semana!!`
         })
@@ -129,30 +135,36 @@ app.post('/contacto', (req, res) =>{
     }
 
 
-    let sql = "INSERT INTO contactos set ?";
+    /*let sql = "INSERT INTO contactos set ?";
 
-    conexion.query(sql, datos, function(err){
+    conexion.query(sql, datos, function (err) {
         if (err) throw err;
-            console.log(`1 Registro insertado`);
-            //Email
-            envioMail().catch(console.error);
-            res.render('registro')
-        })
+        console.log(`1 Registro insertado`);
+        //Email
+        envioMail().catch(console.error);
+        res.render('registro')
+    }) */
+    res.json({
+        prueba: 'Probando deploy sin conexion a la Database'
+    })
 
 })
 
 app.post('/delete', (req, res) => {
 
     console.log(req.body.idProducto);
-    let sql = "DELETE FROM productos where idProducto = " + req.body.idProducto + ""; 
+    /*let sql = "DELETE FROM productos where idProducto = " + req.body.idProducto + ""; 
     console.log(sql);
     conexion.query(sql, function(err, result){
         if (err) throw err;
             console.log('Dato Eliminado: ' + result.affectedRows);
             res.render('formulario')
-        }) 
+    }) */
+    res.json({
+        prueba: 'Probando deploy sin conexion a la Database'
+    })
+    
 })
-
 
 app.post('/update', (req, res) => {
 
@@ -161,7 +173,7 @@ app.post('/update', (req, res) => {
     const descripcion = req.body.descripcion;
     const idProducto = req.body.idProducto;
 
-    let sql = "UPDATE productos SET nombre = '" 
+    /*let sql = "UPDATE productos SET nombre = '" 
     + nombre 
     + "', precio = '" 
     + precio 
@@ -172,21 +184,21 @@ app.post('/update', (req, res) => {
 
     console.log(sql);
 
-    //res.send(sql)
+    res.send(sql)
 
     conexion.query(sql, function(err, result){
         if (err) throw err;
             console.log('Dato Actualizado: ' + result.affectedRows);
             res.render('formulario')
     })
-
-    /*res.json({
+    */
+    res.json({
         prueba: 'Probando deploy sin conexion a la Database'
-    })*/
+    })
 
 })
 //Servidor a la escucha de las peticiones
-app.listen(PORT, ()=>{
+app.listen(PORT, () => {
     console.log(`Servidor tranajando en el Puerto: ${PORT}`);
 })
 
