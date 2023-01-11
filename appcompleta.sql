@@ -1,6 +1,5 @@
-
--- Data Base para App Completa --
 create database empresautn;
+use empresautn;
 
 -- drop table contactos; --
 

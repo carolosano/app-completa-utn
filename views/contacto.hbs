@@ -1,12 +1,13 @@
 <div class="container text-center m-5">
     <hr>
     <h1>
-        Buenas!! Soy el {{ titulo }} de la App
+        {{ titulo }}
     </h1>
     <hr>
 </div>
 
-<div class="container m-5">
+
+<div class="container m-700">
     <form action="/contacto" method="post">
         <div class="mb-3">
             <label for="nombre" class="form-label">Nombre</label>
@@ -17,7 +18,7 @@
             <input type="email" class="form-control" id="email" name="email" required>
         </div>
         <div class="mb-3 text-center">
-            <button type="submit" class="btn btn-danger w-75">Enviar Datos</button>
+            <button type="submit" class="btn btn-danger w-75">Registrarse</button>
         </div>
     </form>
 </div>

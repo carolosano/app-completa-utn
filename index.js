@@ -37,6 +37,8 @@ const conexion = mysql.createConnection({
 
 })
 
+
+
 conexion.connect((err)=>{
     if (err) throw err;
     console.log(`Conectado a la Data Base: ${process.env.DATABASE}`);
@@ -59,7 +61,7 @@ app.get('/productos', (req, res) => {
 
     conexion.query(sql, function(err, result){
         if (err) throw err;
-        //console.log(result);
+        console.log(result);
         res.render('productos', {
             titulo: 'Productos',
             datos: result
@@ -67,10 +69,9 @@ app.get('/productos', (req, res) => {
     })
 })
 
-
 app.get('/contacto', (req, res) =>{
     res.render('contacto', {
-        titulo: 'Contacto'
+        titulo: 'Registro'
     })
 })
 
@@ -135,11 +136,55 @@ app.post('/contacto', (req, res) =>{
             console.log(`1 Registro insertado`);
             //Email
             envioMail().catch(console.error);
-            res.render('enviado')
+            res.render('registro')
         })
 
 })
 
+app.post('/delete', (req, res) => {
+
+    console.log(req.body.idProducto);
+    let sql = "DELETE FROM productos where idProducto = " + req.body.idProducto + ""; 
+    console.log(sql);
+    conexion.query(sql, function(err, result){
+        if (err) throw err;
+            console.log('Dato Eliminado: ' + result.affectedRows);
+            res.render('formulario')
+        }) 
+})
+
+
+app.post('/update', (req, res) => {
+
+    const nombre = req.body.nombre;
+    const precio = req.body.precio;
+    const descripcion = req.body.descripcion;
+    const idProducto = req.body.idProducto;
+
+    let sql = "UPDATE productos SET nombre = '" 
+    + nombre 
+    + "', precio = '" 
+    + precio 
+    + "', descripcion = '" 
+    + descripcion 
+    + "' WHERE idProducto = " 
+    + idProducto;
+
+    console.log(sql);
+
+    //res.send(sql)
+
+    conexion.query(sql, function(err, result){
+        if (err) throw err;
+            console.log('Dato Actualizado: ' + result.affectedRows);
+            res.render('formulario')
+    })
+
+    /*res.json({
+        prueba: 'Probando deploy sin conexion a la Database'
+    })*/
+
+})
 //Servidor a la escucha de las peticiones
 app.listen(PORT, ()=>{
     console.log(`Servidor tranajando en el Puerto: ${PORT}`);
